@@ -19,7 +19,7 @@ from numpy.typing import NDArray
 import torch
 import torch.nn.functional as F
 from torchvision.transforms.functional import normalize
-from models import *
+from .models import *
 from huggingface_hub import hf_hub_download
 
 
