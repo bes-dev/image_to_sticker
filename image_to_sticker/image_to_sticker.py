@@ -152,7 +152,7 @@ class ImageToStickerPipeline:
         mask_coarse = self.compute_mask(image_t)
         image_coarse = mask_coarse * image_t
         # compute fine mask
-        mask_fine = self.compute_mask(image_coarse)[0, 0].detach().cpu().numpy()
+        mask_fine = self.compute_mask(image_coarse)[0, 0].detach().cpu().float().numpy()
         if postprocess:
             mask_fine = self.postprocess_mask(mask_fine * 255.0).astype(np.uint8) / 255.0
         # compute final image
