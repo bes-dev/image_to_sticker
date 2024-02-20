@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import os
 import cv2
 import numpy as np
 from numpy.typing import NDArray
@@ -163,8 +164,8 @@ class ImageToStickerPipeline:
         # compute final image
         image_fine = mask_fine[:, :, None] * image.astype(np.float32)
         image_fine = self.borderizer(image_fine, mask_fine)
-        if output_format == "RGB":
-            image_fine = cv2.cvtColor(image_fine, cv2.COLOR_BGR2RGB)
+        if output_format == "RGBA":
+            image_fine = cv2.cvtColor(image_fine, cv2.COLOR_BGRA2RGBA)
         return image_fine
 
 
