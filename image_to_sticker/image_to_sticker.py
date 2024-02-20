@@ -56,12 +56,17 @@ class ImageToStickerPipeline:
             border_radius: int = 7
     ):
         self.model = ISNetDIS()
-        self.model.load_state_dict(
-            torch.load(
+        if os.path.exists(os.path.join(model_name, "isnet-general-use.pth")):
+            ckpt = torch.load(
+                os.path.join(model_name, "isnet-general-use.pth"),
+                map_location="cpu"
+            )
+        else:
+            ckpt = torch.load(
                 hf_hub_download(model_name, filename="isnet-general-use.pth"),
                 map_location="cpu"
             )
-        )
+        self.model.load_state_dict(ckpt)
         self.model.eval()
         self.model.to(device=device, dtype=torch_dtype)
         self.device = device
