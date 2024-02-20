@@ -147,11 +147,12 @@ class ImageToStickerPipeline:
         if input_size is None:
             input_size = image.shape[:2]
         image_t = image_to_tensor(image, input_size, normalize_tensor=True)
+        image_t = image_t.to(device=self.device, dtype=self.torch_dtype)
         # compute coarse mask
         mask_coarse = self.compute_mask(image_t)
         image_coarse = mask_coarse * image_t
         # compute fine mask
-        mask_fine = self.compute_mask(image_coarse)[0, 0].detach().numpy()
+        mask_fine = self.compute_mask(image_coarse)[0, 0].detach().cpu().numpy()
         if postprocess:
             mask_fine = self.postprocess_mask(mask_fine * 255.0).astype(np.uint8) / 255.0
         # compute final image
